@@ -10,7 +10,7 @@ class character:
         self.x, self.y = TUK_WIDTH // 2, TUK_HEIGHT // 2
         self.img = sprite
     def draw(self):
-        self.img.draw(self.x, self.y)
+        self.img.clip_draw(0,self.img.h - 36, 36, 36, self.x, self.y)
 my_character = character()
 
 clear_canvas()
