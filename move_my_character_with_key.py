@@ -1,13 +1,9 @@
 from pico2d import *
-TUK_WIDTH, TUK_HEIGHT = 1280, 1024
-open_canvas(TUK_WIDTH, TUK_HEIGHT)
 
-sprite = load_image('sprite_sheet.png')
-backGround = load_image('TUK_GROUND.png')
 
-class character:
-    def __init__(self):
-        self.x, self.y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+class Character:
+    def __init__(self,sprite):
+        self.x, self.y = get_canvas_width() // 2, get_canvas_height() // 2
         self.img = sprite
         self.sizeW, self.sizeH = 2, 2
         self.frame = 0
@@ -26,6 +22,7 @@ class character:
         
         self.index = 0
         self.isLookLeft = True
+    
     def draw(self):
         if (not self.isLookLeft):
             self.img.clip_composite_draw(self.lefts[self.frame + self.index], self.bottoms[self.frame + self.index], 
@@ -38,9 +35,9 @@ class character:
                            self.widths[self.frame + self.index], self.heights[self.frame + self.index],
                            self.x - (self.widths[self.frame + self.index] - 36), self.y,
                            self.widths[self.frame + self.index] * self.sizeW, self.heights[self.frame + self.index] * self.sizeH)
-        if (self.x + self.dirH * self.speed <= TUK_WIDTH - 50 and self.x + self.dirH * self.speed >= 50):
+        if (self.x + self.dirH * self.speed <= get_canvas_width() - 50 and self.x + self.dirH * self.speed >= 50):
             self.x += self.dirH * self.speed
-        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - 50 and self.y + self.dirV * self.speed >= 50):
+        if (self.y + self.dirV * self.speed <= get_canvas_height() - 50 and self.y + self.dirV * self.speed >= 50):
             self.y += self.dirV * self.speed
         self.frame = ((self.frame + 1) % self.nFrame)
     
@@ -50,49 +47,17 @@ class character:
     def set_punch(self):
         self.nFrame, self.index = 15, 14
         
+class GameManager:
+    def __init__(self):
+        open_canvas(0, 0)
+        self.sprite = load_image('sprite_sheet.png')
+        self.backGround = load_image('TUK_GROUND.png')
+        self.width, self.height = self.backGround.w, self.backGround.h
+        resize_canvas(self.width, self.height)
+        self.my_character = Character(self.sprite)   
 
-my_character = character()
 
-def animation():
-    clear_canvas()
-    backGround.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    my_character.draw()
-    update_canvas()
-    delay(0.15)
-
-def handle_events():
-    global my_character
-    events = get_events()
-    for event in events:
-        if event.type == SDL_KEYDOWN:
-            if event.key == SDLK_RIGHT:
-                my_character.dirH += 1
-            if event.key == SDLK_LEFT:
-                my_character.dirH -= 1
-            if event.key == SDLK_UP:
-                my_character.dirV += 1
-            if event.key == SDLK_DOWN:
-                my_character.dirV -= 1        
-        if event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT:
-                my_character.dirH -= 1
-            if event.key == SDLK_LEFT:
-                my_character.dirH += 1
-            if event.key == SDLK_UP:
-                my_character.dirV -= 1
-            if event.key == SDLK_DOWN:
-                my_character.dirV += 1
-    if (my_character.dirH == 0 and my_character.dirV == 0):
-        my_character.set_idle()
-    else:
-        my_character.set_punch()
-    if (my_character.dirH > 0):
-        my_character.isLookLeft = False
-    if (my_character.dirH < 0):
-        my_character.isLookLeft = True
-while True:
-    handle_events()
-    animation()
+GM = GameManager()
 
 delay(1)
 
