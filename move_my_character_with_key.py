@@ -11,10 +11,11 @@ class character:
         self.img = sprite
         self.w, self.h = 100, 100
         self.frame = 0
-        self.dirH = 0
+        self.dirH, self.dirV = 0, 0
     def draw(self):
         self.img.clip_draw(self.frame * 36,self.img.h - 36, 36, 36, self.x, self.y, self.w, self.h)
         self.x += self.dirH * 5
+        self.y += self.dirV * 5
         self.frame = (self.frame + 1) % 6
 my_character = character()
 
@@ -33,11 +34,15 @@ def handle_events():
                 my_character.dirH += 1
             if event.key == SDLK_LEFT:
                 my_character.dirH -= 1
+            if event.key == SDLK_UP:
+                my_character.dirV += 1     
         if event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 my_character.dirH -= 1
             if event.key == SDLK_LEFT:
                 my_character.dirH += 1
+            if event.key == SDLK_UP:
+                my_character.dirV -= 1
 while True:
     handle_events()
     animation_idle()
