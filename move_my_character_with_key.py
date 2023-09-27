@@ -12,12 +12,13 @@ class character:
         self.w, self.h = 100, 100
         self.frame = 0
         self.dirH, self.dirV = 0, 0
+        self.speed = 10
     def draw(self):
         self.img.clip_draw(self.frame * 36,self.img.h - 36, 36, 36, self.x, self.y, self.w, self.h)
-        if (self.x + self.dirH * 5 <= TUK_WIDTH - self.w // 2 and self.x + self.dirH * 5 >= self.w // 2):
-            self.x += self.dirH * 5
-        if (self.y + self.dirV * 5 <= TUK_HEIGHT - self.h // 2 and self.y + self.dirV * 5 >= self.h // 2):
-            self.y += self.dirV * 5
+        if (self.x + self.dirH * self.speed <= TUK_WIDTH - self.w // 2 and self.x + self.dirH * self.speed >= self.w // 2):
+            self.x += self.dirH * self.speed
+        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - self.h // 2 and self.y + self.dirV * self.speed >= self.h // 2):
+            self.y += self.dirV * self.speed
         self.frame = (self.frame + 1) % 6
 my_character = character()
 
