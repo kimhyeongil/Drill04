@@ -20,7 +20,7 @@ class Character:
         self.bottoms += [sprite.h - 82 for i in range(15)]
         self.heights += [38 for i in range(15)]
         
-        self.index, self.nFrame = 0, 13
+        self.index, self.nFrame = 0, 14
         self.isLookLeft = True
     
     def draw(self):
@@ -63,10 +63,42 @@ class GameManager:
         update_canvas()
         delay(0.15)
     
+    def handle_events(self):
+        my_char = self.my_character
+        events = get_events()
+        for event in events:
+            if event.type == SDL_KEYDOWN:
+                if event.key == SDLK_RIGHT:
+                    my_char.dirH += 1
+                if event.key == SDLK_LEFT:
+                    my_char.dirH -= 1
+                if event.key == SDLK_UP:
+                    my_char.dirV += 1
+                if event.key == SDLK_DOWN:
+                    my_char.dirV -= 1
+            if event.type == SDL_KEYUP:
+                if event.key == SDLK_RIGHT:
+                    my_char.dirH -= 1
+                if event.key == SDLK_LEFT:
+                    my_char.dirH += 1
+                if event.key == SDLK_UP:
+                    my_char.dirV -= 1
+                if event.key == SDLK_DOWN:
+                    my_char.dirV += 1
+        if (my_char.dirH == 0 and my_char.dirV == 0):
+            my_char.set_idle()
+        else:
+            my_char.set_punch()
+        if (my_char.dirH > 0):
+            my_char.isLookLeft = False
+        if (my_char.dirH < 0):
+            my_char.isLookLeft = True
+
 
 GM = GameManager()
 
-while (True):
+while True:
+    GM.handle_events()
     GM.render()
 
 delay(1)
