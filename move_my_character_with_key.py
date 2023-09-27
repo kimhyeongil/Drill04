@@ -6,13 +6,14 @@ sprite = load_image('sprite_sheet.png')
 backGround = load_image('TUK_GROUND.png')
 
 class character:
-    pass
+    def draw(self):
+        print('draw')
 
 my_character = character()
-print(type(my_character))
 
 clear_canvas()
 backGround.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+my_character.draw()
 update_canvas()
 delay(1)
 
