@@ -19,8 +19,8 @@ class character:
         self.widths = [36 for i in range(len(self.lefts))]
         self.heights = [38 for i in range(len(self.lefts))]
         
-        self.lefts += [108, 144, 180, 224, 272, 320, 360, 396, 432, 468, 504, 545, 596, 647, 688]
-        self.widths += [36, 36, 44, 48, 48, 40, 36, 36, 36, 36, 41, 51, 51, 41, 36]
+        self.lefts += [108, 144, 180, 223, 271, 318, 360, 396, 432, 468, 504, 545, 596, 646, 688]
+        self.widths += [36, 36, 43, 48, 47, 42, 36, 36, 36, 36, 41, 51, 50, 42, 36]
         self.bottoms += [sprite.h - 82 for i in range(15)]
         self.heights += [38 for i in range(15)]
         
@@ -31,16 +31,16 @@ class character:
             self.img.clip_composite_draw(self.lefts[self.frame + self.index], self.bottoms[self.frame + self.index], 
                            self.widths[self.frame + self.index], self.heights[self.frame + self.index],
                            0, 'h',
-                           self.x - (self.widths[self.frame + self.index] - 36) // 2, self.y,
+                           self.x + (self.widths[self.frame + self.index] - 36), self.y,
                            self.widths[self.frame + self.index] * self.sizeW, self.heights[self.frame + self.index] * self.sizeH)
         else:
             self.img.clip_draw(self.lefts[self.frame + self.index], self.bottoms[self.frame + self.index], 
                            self.widths[self.frame + self.index], self.heights[self.frame + self.index],
-                           self.x - (self.widths[self.frame + self.index] - 36) // 2, self.y,
+                           self.x - (self.widths[self.frame + self.index] - 36), self.y,
                            self.widths[self.frame + self.index] * self.sizeW, self.heights[self.frame + self.index] * self.sizeH)
-        if (self.x + self.dirH * self.speed <= TUK_WIDTH - self.sizeW // 2 and self.x + self.dirH * self.speed >= self.sizeW // 2):
+        if (self.x + self.dirH * self.speed <= TUK_WIDTH - 50 and self.x + self.dirH * self.speed >= 50):
             self.x += self.dirH * self.speed
-        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - self.sizeH // 2 and self.y + self.dirV * self.speed >= self.sizeH // 2):
+        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - 50 and self.y + self.dirV * self.speed >= 50):
             self.y += self.dirV * self.speed
         self.frame = ((self.frame + 1) % self.nFrame)
     
