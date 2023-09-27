@@ -76,15 +76,13 @@ def handle_events():
                 my_character.dirV += 1
     if (my_character.dirH == 0 and my_character.dirV == 0):
         my_character.set_idle()
+    else:
+        my_character.set_punch()
 
-
-# while True:
-#     handle_events()
-#     animation()
-
-my_character.set_punch()
 while True:
+    handle_events()
     animation()
+    
 delay(1)
 
 close_canvas()
