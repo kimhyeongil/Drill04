@@ -9,17 +9,31 @@ class character:
     def __init__(self):
         self.x, self.y = TUK_WIDTH // 2, TUK_HEIGHT // 2
         self.img = sprite
-        self.w, self.h = 100, 100
+        self.sizeW, self.sizeH = 100, 100
         self.frame = 0
         self.dirH, self.dirV = 0, 0
         self.speed = 10
+        self.width, self.height = 36, 36
+        self.left, self.bottom = 0, self.img.h - 36
+        self.nFrame = 6
+    
     def draw(self):
-        self.img.clip_draw(self.frame * 36,self.img.h - 36, 36, 36, self.x, self.y, self.w, self.h)
-        if (self.x + self.dirH * self.speed <= TUK_WIDTH - self.w // 2 and self.x + self.dirH * self.speed >= self.w // 2):
+        self.img.clip_draw(self.left + self.frame * self.width,self.bottom, 36, 36, self.x, self.y, self.sizeW, self.sizeH)
+        if (self.x + self.dirH * self.speed <= TUK_WIDTH - self.sizeW // 2 and self.x + self.dirH * self.speed >= self.sizeW // 2):
             self.x += self.dirH * self.speed
-        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - self.h // 2 and self.y + self.dirV * self.speed >= self.h // 2):
+        if (self.y + self.dirV * self.speed <= TUK_HEIGHT - self.sizeH // 2 and self.y + self.dirV * self.speed >= self.sizeH // 2):
             self.y += self.dirV * self.speed
-        self.frame = (self.frame + 1) % 6
+        self.frame = (self.frame + 1) % self.nFrame
+
+    def set_idle(self):
+        self.width, self.height = 36, 36
+        self.left, self.bottom = 0, self.img.h - 36
+        self.nFrame = 6
+    
+    def set_punch(self):
+        self.width, self.height = 36, 36
+        self.left, self.bottom = 108, self.img.h - 36
+        self.nFrame = 12        
 my_character = character()
 
 def animation_idle():
@@ -28,6 +42,7 @@ def animation_idle():
     my_character.draw()
     update_canvas()
     delay(0.1)
+
 def handle_events():
     global my_character
     events = get_events()
@@ -49,7 +64,10 @@ def handle_events():
             if event.key == SDLK_UP:
                 my_character.dirV -= 1
             if event.key == SDLK_DOWN:
-                my_character.dirV += 1  
+                my_character.dirV += 1
+    if (my_character.dirH == 0 and my_character.dirV == 0):
+        my_character.set_idle()
+
 while True:
     handle_events()
     animation_idle()
