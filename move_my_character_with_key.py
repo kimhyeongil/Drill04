@@ -14,7 +14,8 @@ class character:
         self.dirH, self.dirV = 0, 0
     def draw(self):
         self.img.clip_draw(self.frame * 36,self.img.h - 36, 36, 36, self.x, self.y, self.w, self.h)
-        self.x += self.dirH * 5
+        if (self.x + self.dirH * 5 <= TUK_WIDTH - self.w // 2 and self.x + self.dirH * 5 >= self.w // 2):
+            self.x += self.dirH * 5
         self.y += self.dirV * 5
         self.frame = (self.frame + 1) % 6
 my_character = character()
