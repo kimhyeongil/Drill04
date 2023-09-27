@@ -94,12 +94,13 @@ class GameManager:
         if (my_char.dirH < 0):
             my_char.isLookLeft = True
 
-
+    def game_start(self):
+        while True:
+            self.handle_events()
+            self.render()
 GM = GameManager()
 
-while True:
-    GM.handle_events()
-    GM.render()
+GM.game_start()
 
 delay(1)
 
