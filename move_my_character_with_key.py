@@ -20,7 +20,7 @@ class Character:
         self.bottoms += [sprite.h - 82 for i in range(15)]
         self.heights += [38 for i in range(15)]
         
-        self.index = 0
+        self.index, self.nFrame = 0, 13
         self.isLookLeft = True
     
     def draw(self):
@@ -49,15 +49,25 @@ class Character:
         
 class GameManager:
     def __init__(self):
-        open_canvas(0, 0)
+        open_canvas()
         self.sprite = load_image('sprite_sheet.png')
         self.backGround = load_image('TUK_GROUND.png')
         self.width, self.height = self.backGround.w, self.backGround.h
         resize_canvas(self.width, self.height)
         self.my_character = Character(self.sprite)   
-
+    
+    def render(self):
+        clear_canvas()
+        self.backGround.draw(self.width // 2, self.height // 2)
+        self.my_character.draw()
+        update_canvas()
+        delay(0.15)
+    
 
 GM = GameManager()
+
+while (True):
+    GM.render()
 
 delay(1)
 
