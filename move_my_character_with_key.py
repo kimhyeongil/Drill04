@@ -31,9 +31,13 @@ def handle_events():
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 my_character.dirH += 1
+            if event.key == SDLK_LEFT:
+                my_character.dirH -= 1
         if event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 my_character.dirH -= 1
+            if event.key == SDLK_LEFT:
+                my_character.dirH += 1
 while True:
     handle_events()
     animation_idle()
