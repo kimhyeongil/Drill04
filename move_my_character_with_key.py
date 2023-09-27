@@ -11,8 +11,10 @@ class character:
         self.img = sprite
         self.w, self.h = 100, 100
         self.frame = 0
+        self.dirH = 0
     def draw(self):
         self.img.clip_draw(self.frame * 36,self.img.h - 36, 36, 36, self.x, self.y, self.w, self.h)
+        self.x += self.dirH * 5
         self.frame = (self.frame + 1) % 6
 my_character = character()
 
@@ -22,8 +24,18 @@ def animation_idle():
     my_character.draw()
     update_canvas()
     delay(0.1)
-    
+def handle_events():
+    global my_character
+    events = get_events()
+    for event in events:
+        if event.type == SDL_KEYDOWN:
+            if event.key == SDLK_RIGHT:
+                my_character.dirH += 1
+        if event.type == SDL_KEYUP:
+            if event.key == SDLK_RIGHT:
+                my_character.dirH -= 1
 while True:
+    handle_events()
     animation_idle()
 
 delay(1)
